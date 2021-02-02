@@ -27,7 +27,7 @@ class hypixelstats(commands.Cog):
             player_data = player_data_request(uuid, hypixel_api_key)
             rank = get_rank(player_data)
             hypixel_level = getExactLevel(player_data)
-            achievement_points = get_achivements(player_data)
+            achievement_points = get_achievements(player_data)
             latest_language = get_language(player_data)
             first_login = get_first_login(player_data)
             last_login = get_last_login(player_data)
