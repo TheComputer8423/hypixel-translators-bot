@@ -11,7 +11,7 @@ class Logger(commands.Bot):
         super().__init__(*args, **kwargs)
 
 
-        for ext in Path().glob("bot/cogs/*.py"):
+        for ext in Path().glob("bot/cogs/*/*.py"):
             try:
                 self.load_extension(".".join(part for part in ext.parts)[:-len(ext.suffix)])
             except Exception:
