@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 from bot.utils.crowdin.api import *
 import asyncio
+from config import langstats_channels, newstrings_channels
 
 
 class hypixelstats(commands.Cog):
