@@ -12,7 +12,7 @@ class hypixelstats(commands.Cog):
         self.bot = bot
 
     # I'm setting it as a command group as I'm planning on adding subcategories (social, games, etc.)
-    @commands.group()
+    @commands.group(aliases=["hstats"])
     async def hypixelstats(self, ctx, username: str = None):
         if username is None:
 
