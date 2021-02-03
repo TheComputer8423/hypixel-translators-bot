@@ -15,3 +15,5 @@ owner_ids = [  # list of intigers
 ]
 
 token = ""  # bot token
+
+hypixel_api_key = ""  # hypixel.net on minecraft -> /api new
