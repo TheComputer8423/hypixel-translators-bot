@@ -16,6 +16,8 @@ owner_ids = [  # list of intigers of the ids of owners
 
 token = ""  # bot token
 
+database_user = "" # Database user
+
 database_password = "" # Password for the database 
 
 hypixel_api_key = ""  # hypixel server api key (hypixel.net on minecraft -> /api new)
