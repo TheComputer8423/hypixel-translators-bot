@@ -6,13 +6,14 @@ from bot.utils.hypixel.hypixelstats import *
 embed_description = "This information has been fetched from the Hypixel API. Some information may update slow due to \
 how the API works."
 
+
 class hypixelstats(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
     # I'm setting it as a command group as I'm planning on adding subcategories (social, games, etc.)
     @commands.group()
-    async def hypixelstats(self, ctx, username: str=None):
+    async def hypixelstats(self, ctx, username: str = None):
         if username is None:
 
             embed = discord.Embed(title=f'Error',
@@ -23,8 +24,8 @@ class hypixelstats(commands.Cog):
 
         else:
 
-            uuid = name_to_uuid(username)
-            player_data = player_data_request(uuid, hypixel_api_key)
+            uuid = await name_to_uuid(username)
+            player_data = await player_data_request(uuid, hypixel_api_key)
             rank = get_rank(player_data)
             hypixel_level = getExactLevel(player_data)
             achievement_points = get_achievements(player_data)
