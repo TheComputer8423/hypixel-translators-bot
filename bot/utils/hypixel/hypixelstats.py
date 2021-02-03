@@ -17,10 +17,8 @@ async def player_data_request(uuid, hypixel_api_key):
         async with aiohttp.ClientSession() as s:
             async with s.get(f"https://api.hypixel.net/player?key={hypixel_api_key}&uuid={uuid}") as res:
                 player_data = await res.json()
-        print("player data was found")
         return player_data
     except:
-        print("player data was not found")
         return None
 
 
@@ -150,3 +148,59 @@ def getExactLevel(player_data):
         return formatted_exp
     except:
         return None
+
+
+def user_twitter(player_data, username):
+    try:
+        twitter_request = player_data["player"]['socialMedia']['links']['TWITTER']
+        twitter_formatted = f"[Link]({twitter_request} \"{username}'s Twitter\")"
+        return twitter_formatted
+    except:
+        return 'Not Linked!'
+
+
+def user_youtube(player_data, username):
+    try:
+        youtube_request = player_data["player"]['socialMedia']['links']['TWITTER']
+        youtube_formatted = f"[Link]({youtube_request} \"{username}'s YouTube\")"
+        return youtube_formatted
+    except:
+        return 'Not Linked!'
+
+
+def user_instagram(player_data, username):
+    try:
+        instagram_request = player_data["player"]['socialMedia']['links']['TWITTER']
+        instagram_formatted = f"[Link]({instagram_request} \"{username}'s Instagram\")"
+        return instagram_formatted
+    except:
+        return 'Not Linked!'
+
+
+def user_twitch(player_data, username):
+    try:
+        twitch_request = player_data["player"]['socialMedia']['links']['TWITCH']
+        twitch_formatted = f"[Link]({twitch_request} \"{username}'s Twitch\")"
+        return twitch_formatted
+    except:
+        return 'Not Linked!'
+
+
+def user_discord(player_data):
+    try:
+        discord_request = player_data["player"]['socialMedia']['links']['DISCORD']
+        if 'https://discord.gg/' in discord_request:
+            return "This user's linked Discord is blocked to comply with our rules."
+        else:
+            return discord_request
+    except:
+        return 'Not Linked!'
+
+
+def user_forums(player_data, username):
+    try:
+        forums_request = player_data["player"]['socialMedia']['links']['HYPIXEL']
+        forums_formatted = f"[Link]({forums_request} \"{username}'s Forums Account\")"
+        return forums_formatted
+    except:
+        return 'Not Linked!'
