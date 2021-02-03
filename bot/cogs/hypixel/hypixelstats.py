@@ -65,7 +65,7 @@ class hypixelstats(commands.Cog):
             youtube = user_youtube(player_data, username)
             instagram = user_instagram(player_data, username)
             twitch = user_twitch(player_data, username)
-            disc = user_discord(player_data)
+            disc = await user_discord(self, player_data)
             forums = user_forums(player_data, username)
 
             embed = discord.Embed(title=f'{rank} {username}',

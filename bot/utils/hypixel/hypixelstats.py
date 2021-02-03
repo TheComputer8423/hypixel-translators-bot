@@ -186,11 +186,15 @@ def user_twitch(player_data, username):
         return 'Not Linked!'
 
 
-def user_discord(player_data):
+async def user_discord(self, player_data):
     try:
         discord_request = player_data["player"]['socialMedia']['links']['DISCORD']
-        if 'https://discord.gg/' in discord_request:
-            return "This user's linked Discord is blocked to comply with our rules."
+        check = await self.bot.fetch_invite(discord_request).guild.id
+        whitelisted_servers = [489529070913060867, 549503328472530974, 418938033325211649, 450878205294018560]
+        if check in whitelisted_servers:
+            return discord_request
+        elif 'discord.gg' in discord_request:
+            return 'Blocked Server Invite'
         else:
             return discord_request
     except:
