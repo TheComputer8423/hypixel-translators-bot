@@ -1,14 +1,14 @@
 from discord import ActivityType, AllowedMentions
 from bot.Logger import Logger
 from discord.ext import commands
-from config import database_password
+from config import database_user, database_password
 import logging
 import discord
 import config
 import pymongo
 
-cluster = pymongo.MongoClient(f"mongodb+srv://rewrite:{database_password}@hypixeltranslators.gqhji.mongodb.net/htbmain\
-?retryWrites=true&w=majority")
+cluster = pymongo.MongoClient(f"mongodb+srv://{database_user}:{database_password}@hypixeltranslators.gqhji.mongodb.net\
+/htbmain?retryWrites=true&w=majority")
 main_db = cluster['htbmain']
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s - %(name)s] %(message)s")
