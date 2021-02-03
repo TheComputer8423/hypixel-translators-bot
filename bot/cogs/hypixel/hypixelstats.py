@@ -11,8 +11,7 @@ class hypixelstats(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    # I'm setting it as a command group as I'm planning on adding subcategories (social, games, etc.)
-    @commands.group(aliases=["hstats"])
+    @commands.group(aliases=["hstats"], invoke_without_command=True)
     async def hypixelstats(self, ctx, username: str = None):
         if username is None:
 
@@ -44,6 +43,41 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=first_login, name='First Login', inline=True)
             embed.add_field(value=last_login, name='Last Login', inline=True)
             embed.add_field(value=last_played, name='Last Played', inline=True)
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
+            await ctx.send(embed=embed)
+
+
+    @hypixelstats.command()
+    async def social(self, ctx, username: str = None):
+        if username is None:
+
+            embed = discord.Embed(title=f'Error',
+                                  description="**You haven't provided a username!**", color=discord.Colour.red())
+            embed.add_field(value='`+hypixelstats social <username>`', name='Expected Command Usage:', inline=False)
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
+            await ctx.send(embed=embed)
+
+        else:
+            uuid = await name_to_uuid(username)
+            player_data = await player_data_request(uuid, hypixel_api_key)
+            rank = get_rank(player_data)
+            twitter = user_twitter(player_data, username)
+            youtube = user_youtube(player_data, username)
+            instagram = user_instagram(player_data, username)
+            twitch = user_twitch(player_data, username)
+            disc = user_discord(player_data)
+            forums = user_forums(player_data, username)
+
+            embed = discord.Embed(title=f'{rank} {username}',
+                                  description=embed_description, color=discord.Colour.red())
+            embed.set_author(name="Player Stats")
+            embed.set_thumbnail(url=f"https://mc-heads.net/body/{uuid}/left")
+            embed.add_field(value=twitter, name='Twitter', inline=True)
+            embed.add_field(value=youtube, name='YouTube', inline=True)
+            embed.add_field(value=instagram, name='Instagram', inline=True)
+            embed.add_field(value=twitch, name='Twitch', inline=True)
+            embed.add_field(value=disc, name='Discord', inline=True)
+            embed.add_field(value=forums, name='Forums', inline=True)
             embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
             await ctx.send(embed=embed)
 
