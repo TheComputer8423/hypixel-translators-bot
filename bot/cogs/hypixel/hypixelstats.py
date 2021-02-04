@@ -47,9 +47,9 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=latest_language, name=strings["language"], inline=True)
             embed.add_field(value=first_login, name=strings["first_login"], inline=True)
             embed.add_field(value=last_login, name=strings["last_logout"], inline=True)
-            embed.add_field(value=last_played, name=strings['lastSeen'], inline=True)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"].replace("%%user%%",
-                                                                                                repr(ctx.author)))
+            embed.add_field(value=last_played, name=strings['lastSeen'].replace("%%game%%", last_played), inline=True)
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=globalstrings["executedBy"].replace("%%user%%",
+                                                                                        str(ctx.author.name)))
             await ctx.send(embed=embed)
 
     @hypixelstats.command()
