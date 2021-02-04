@@ -38,7 +38,7 @@ class hypixelstats(commands.Cog):
             last_played = get_last_game(player_data)
 
             embed = discord.Embed(title=f'{rank} {username}',
-                                  description=strings["description"], color=discord.Colour.red())
+                                  description=strings["description"].replace("%%username%%", username), color=discord.Colour.red())
             embed.set_author(name=strings["moduleName"])
             embed.set_thumbnail(url=f"https://mc-heads.net/body/{uuid}/left")
             embed.add_field(value=hypixel_level, name=strings["networkLevel"], inline=True)
@@ -47,7 +47,7 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=first_login, name=strings["first_login"], inline=True)
             embed.add_field(value=last_login, name=strings["last_logout"], inline=True)
             embed.add_field(value=last_played, name='Last Played', inline=True)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"])
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
             await ctx.send(embed=embed)
 
     @hypixelstats.command()
@@ -83,7 +83,7 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=twitch, name='Twitch', inline=True)
             embed.add_field(value=disc, name='Discord', inline=True)
             embed.add_field(value=forums, name='Forums', inline=True)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
             await ctx.send(embed=embed)
 
 
