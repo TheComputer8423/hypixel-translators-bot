@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from config import hypixel_api_key
 from bot.utils.hypixel.hypixelstats import *
+from bot.utils.localization.localization import *
 
 embed_description = "This information has been fetched from the Hypixel API. Some information may update slow due to \
 how the API works."
@@ -13,12 +14,15 @@ class hypixelstats(commands.Cog):
 
     @commands.group(aliases=["hstats"], invoke_without_command=True)
     async def hypixelstats(self, ctx, username: str = None):
+        strings, globalstrings = await get_strings(ctx)
         if username is None:
 
-            embed = discord.Embed(title=f'Error',
-                                  description="**You haven't provided a username!**", color=discord.Colour.red())
-            embed.add_field(value='`+hypixelstats <username>`', name='Expected Command Usage:', inline=False)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
+            embed = discord.Embed(title=globalstrings["error"],
+                                  description=globalstrings['noUser'], color=discord.Colour.red())
+            embed.add_field(value='`+hypixelstats <username>`', name=globalstrings['usage'], inline=False)
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings['executedBy'].
+                             replace("%%user%%", repr(ctx.author)) + " | " +
+                             strings["madeBy"].replace("%%developer%%", "marzeq_#2137"))
             await ctx.send(embed=embed)
 
         else:
@@ -35,26 +39,27 @@ class hypixelstats(commands.Cog):
 
             embed = discord.Embed(title=f'{rank} {username}',
                                   description=embed_description, color=discord.Colour.red())
-            embed.set_author(name="Player Stats")
+            embed.set_author(name=strings["moduleName"])
             embed.set_thumbnail(url=f"https://mc-heads.net/body/{uuid}/left")
-            embed.add_field(value=hypixel_level, name='Hypixel Level', inline=True)
-            embed.add_field(value=achievement_points, name='Achievement Points', inline=True)
-            embed.add_field(value=latest_language, name='Language', inline=True)
-            embed.add_field(value=first_login, name='First Login', inline=True)
-            embed.add_field(value=last_login, name='Last Login', inline=True)
+            embed.add_field(value=hypixel_level, name=strings["networkLevel"], inline=True)
+            embed.add_field(value=achievement_points, name=strings["ap"], inline=True)
+            embed.add_field(value=latest_language, name=strings["language"], inline=True)
+            embed.add_field(value=first_login, name=strings["first_login"], inline=True)
+            embed.add_field(value=last_login, name=strings["last_logout"], inline=True)
             embed.add_field(value=last_played, name='Last Played', inline=True)
             embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
             await ctx.send(embed=embed)
 
-
     @hypixelstats.command()
     async def social(self, ctx, username: str = None):
+        strings, globalstrings = await get_strings(ctx)
         if username is None:
-
-            embed = discord.Embed(title=f'Error',
-                                  description="**You haven't provided a username!**", color=discord.Colour.red())
-            embed.add_field(value='`+hypixelstats social <username>`', name='Expected Command Usage:', inline=False)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed By {ctx.author}')
+            embed = discord.Embed(title=globalstrings["error"],
+                                  description=globalstrings['noUser'], color=discord.Colour.red())
+            embed.add_field(value='`+hypixelstats <username>`', name=globalstrings['usage'], inline=False)
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings['executedBy'].
+                             replace("%%user%%", repr(ctx.author)) + " | " +
+                             strings["madeBy"].replace("%%developer%%", "marzeq_#2137"))
             await ctx.send(embed=embed)
 
         else:

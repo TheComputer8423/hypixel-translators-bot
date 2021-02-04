@@ -4,8 +4,8 @@ from main import main_db
 
 
 async def get_strings(ctx) -> Tuple[dict, dict]:
-    collection = main_db['test_players']  # todo: replace with players when rodry ports everything to the db
-    author_lang = collection.find_one({"id": ctx.author.id})["lang"]
+    collection = main_db['players']
+    author_lang = collection.find_one({"id": str(ctx.author.id)})["lang"]
 
     with open(f"strings/{author_lang}/{ctx.command.name}.json", "r") as f:
         localstings = json.load(f)

@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 from pathlib import Path
 import logging
 import config
@@ -26,4 +27,11 @@ class Logger(commands.Bot):
 
         log.error("", exc_info=exc)
 
-        await ctx.send(exc)
+        await ctx.send(
+            embed=discord.Embed(
+                title="Error",
+                description="`" + str(type(exc)).replace("<class '", "").
+                            replace("'>", "") + "`: " + str(exc),
+                color=discord.colour.Colour.red()
+            )
+        )
