@@ -4,17 +4,18 @@ from config import hypixel_api_key
 from bot.utils.hypixel.hypixelstats import *
 from bot.utils.localization.localization import *
 
-embed_description = "This information has been fetched from the Hypixel API. Some information may update slow due to \
-how the API works."
-
 
 class hypixelstats(commands.Cog):
+    name = "hypixelstats"
+
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
     @commands.group(aliases=["hstats"], invoke_without_command=True)
     async def hypixelstats(self, ctx, username: str = None):
         strings, globalstrings = await get_strings(ctx)
+        uname = await get_username_from_user(ctx.author)
+        if username is None and uname is not None: username = uname
         if username is None:
 
             embed = discord.Embed(title=globalstrings["error"],
@@ -26,7 +27,6 @@ class hypixelstats(commands.Cog):
             await ctx.send(embed=embed)
 
         else:
-
             uuid = await name_to_uuid(username)
             player_data = await player_data_request(uuid, hypixel_api_key)
             rank = get_rank(player_data)

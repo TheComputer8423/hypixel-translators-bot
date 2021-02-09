@@ -6,6 +6,8 @@ collection = main_db['context']
 
 
 class crowdin_context(commands.Cog):
+    name = "context"
+
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
