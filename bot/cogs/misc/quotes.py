@@ -10,7 +10,7 @@ class quote(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-
+    # Ready for strings
     @commands.group(invoke_without_command=True)
     async def quote(self, ctx, quote_id: int = None):
         if ctx.invoked_subcommand is None:
@@ -32,6 +32,7 @@ class quote(commands.Cog):
                 embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
                 await ctx.send(embed=embed)
 
+    # Ready for strings
     @quote.command()
     async def add(self, ctx, quote_author: discord.Member, *, quote_content: str):
         target_channel = ctx.bot.get_channel(staff_bot_channel_id)
