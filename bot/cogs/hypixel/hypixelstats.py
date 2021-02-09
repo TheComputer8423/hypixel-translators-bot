@@ -4,17 +4,18 @@ from config import hypixel_api_key
 from bot.utils.hypixel.hypixelstats import *
 from bot.utils.localization.localization import *
 
-embed_description = "This information has been fetched from the Hypixel API. Some information may update slow due to \
-how the API works."
-
 
 class hypixelstats(commands.Cog):
+    name = "hypixelstats"
+
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
     @commands.group(aliases=["hstats"], invoke_without_command=True)
     async def hypixelstats(self, ctx, username: str = None):
         strings, globalstrings = await get_strings(ctx)
+        uname = await get_username_from_user(ctx.author)
+        if username is None and uname is not None: username = uname
         if username is None:
 
             embed = discord.Embed(title=globalstrings["error"],
@@ -26,7 +27,6 @@ class hypixelstats(commands.Cog):
             await ctx.send(embed=embed)
 
         else:
-
             uuid = await name_to_uuid(username)
             player_data = await player_data_request(uuid, hypixel_api_key)
             rank = get_rank(player_data)
@@ -49,7 +49,7 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=last_login, name=strings["last_logout"], inline=True)
             embed.add_field(value=last_played, name=strings['lastSeen'].replace("%%game%%", last_played), inline=True)
             embed.set_footer(icon_url=ctx.author.avatar_url, text=globalstrings["executedBy"].replace("%%user%%",
-                                                                                        str(ctx.author.name)))
+                             str(ctx.author.name)))
             await ctx.send(embed=embed)
 
     @hypixelstats.command()
@@ -76,7 +76,8 @@ class hypixelstats(commands.Cog):
             forums = user_forums(player_data, username)
 
             embed = discord.Embed(title=f'{rank} {username}',
-                                  description=embed_description, color=discord.Colour.red())
+                                  description=strings["socialMedia"].replace("%%username%%", username),
+                                  color=discord.Colour.red())
             embed.set_author(name="Player Stats")
             embed.set_thumbnail(url=f"https://mc-heads.net/body/{uuid}/left")
             embed.add_field(value=twitter, name='Twitter', inline=True)
@@ -85,7 +86,8 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=twitch, name='Twitch', inline=True)
             embed.add_field(value=disc, name='Discord', inline=True)
             embed.add_field(value=forums, name='Forums', inline=True)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
+            embed.set_footer(icon_url=ctx.author.avatar_url,
+                             text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
             await ctx.send(embed=embed)
 
 

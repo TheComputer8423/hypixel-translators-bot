@@ -1,6 +1,8 @@
 from math import floor, sqrt
 import datetime
 import aiohttp
+from main import main_db
+from typing import *
 
 EXP_FIELD = 0
 LVL_FIELD = 0
@@ -10,6 +12,25 @@ HALF_GROWTH = 0.5 * GROWTH
 REVERSE_PQ_PREFIX = -(BASE - 0.5 * GROWTH) / GROWTH
 REVERSE_CONST = REVERSE_PQ_PREFIX * REVERSE_PQ_PREFIX
 GROWTH_DIVIDES_2 = 2 / GROWTH
+
+
+async def uuid_to_name(uuid):
+    try:
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://api.mojang.com/user/profiles/{uuid}/names") as res:
+                res_json = await res.json()
+        return res_json[len(res_json) - 1]["name"]
+    except:
+        return None
+
+
+async def get_username_from_user(user) -> Optional[str]:
+    collection = main_db['users']
+    author_uuid = collection.find_one({"id": str(user.id)})["uuid"]
+    if author_uuid == "":
+        return None
+    uname = await uuid_to_name(author_uuid)
+    return uname
 
 
 async def player_data_request(uuid, hypixel_api_key):
