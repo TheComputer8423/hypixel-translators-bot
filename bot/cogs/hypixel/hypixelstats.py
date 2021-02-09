@@ -49,7 +49,7 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=last_login, name=strings["last_logout"], inline=True)
             embed.add_field(value=last_played, name=strings['lastSeen'].replace("%%game%%", last_played), inline=True)
             embed.set_footer(icon_url=ctx.author.avatar_url, text=globalstrings["executedBy"].replace("%%user%%",
-                                                                                        str(ctx.author.name)))
+                             str(ctx.author.name)))
             await ctx.send(embed=embed)
 
     @hypixelstats.command()
@@ -76,7 +76,8 @@ class hypixelstats(commands.Cog):
             forums = user_forums(player_data, username)
 
             embed = discord.Embed(title=f'{rank} {username}',
-                                  description=embed_description, color=discord.Colour.red())
+                                  description=strings["socialMedia"].replace("%%username%%", username),
+                                  color=discord.Colour.red())
             embed.set_author(name="Player Stats")
             embed.set_thumbnail(url=f"https://mc-heads.net/body/{uuid}/left")
             embed.add_field(value=twitter, name='Twitter', inline=True)
@@ -85,7 +86,8 @@ class hypixelstats(commands.Cog):
             embed.add_field(value=twitch, name='Twitch', inline=True)
             embed.add_field(value=disc, name='Discord', inline=True)
             embed.add_field(value=forums, name='Forums', inline=True)
-            embed.set_footer(icon_url=ctx.author.avatar_url, text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
+            embed.set_footer(icon_url=ctx.author.avatar_url,
+                             text=strings["executedBy"].replace("%%user%%", repr(ctx.author)))
             await ctx.send(embed=embed)
 
 

@@ -1,7 +1,7 @@
 {
     "moduleName": "Player stats",
     "description": "Here are some Hypixel stats for %%username%%, obtained using the Hypixel API.",
-    "socialMedia": "Here are the linked social media for %%username%%, obtained [here]%%link%%.",
+    "socialMedia": "Here are the linked social media for %%username%%, obtained using the Hypixel API.",
     "updateNotice": "Note: Information shown here might take a few minutes to update after you've changed something.",
     "mediaTip": "To see their linked social media, execute %%command%%",
     "networkLevel": "Hypixel level",
