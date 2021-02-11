@@ -105,6 +105,48 @@ class quote(commands.Cog):
             embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
             await ctx.send(embed=embed)
 
+    @quote.command()
+    async def edit(self, ctx, quote_id: int = None, *, quote_content: str = None):
+        if ctx.message.author.guild_permissions.view_audit_log:
+            if quote_id is None:
+                embed = discord.Embed(title='Error',
+                                      description='Invalid usage!', color=discord.Colour.red())
+                embed.add_field(value='`+quote edit <quote_id> <quote_content>`', name='Usage:', inline=False)
+                embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
+                await ctx.send(embed=embed)
+            else:
+                if quote_content is None:
+                    embed = discord.Embed(title='Error',
+                                          description='Invalid usage!', color=discord.Colour.red())
+                    embed.add_field(value='`+quote edit <quote_id> <quote_content>`', name='Usage:', inline=False)
+                    embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
+                    await ctx.send(embed=embed)
+                else:
+                    quote_data = collection.find_one({"id": quote_id})
+                    if quote_data is None:
+                        embed = discord.Embed(title='Error',
+                                              description="I couldn't find a quote with that ID!",
+                                              color=discord.Colour.red())
+                        embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
+                        await ctx.send(embed=embed)
+                    else:
+                        collection.update_one({"id": quote_id}, {"$set": {"quote": quote_content}})
+                        staff_embed = discord.Embed(title=f"Successfully edited quote #{quote_id}",
+                                                    color=discord.Colour.
+                                                    from_rgb(33, 222, 112))
+                        staff_embed.set_author(name='Quote')
+                        staff_embed.add_field(value=quote_data['quote'], name="Old Quote:", inline=False)
+                        staff_embed.add_field(value=quote_content, name="New Quote:", inline=False)
+                        staff_embed.add_field(value=quote_data['author'], name="Author:", inline=False)
+                        staff_embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
+                        await ctx.send(embed=staff_embed)
+        else:
+            embed = discord.Embed(title='Error',
+                                  description="You don't have permission to use this command!",
+                                  color=discord.Colour.red())
+            embed.set_footer(icon_url=ctx.author.avatar_url, text=f'Executed by {ctx.author.name}')
+            await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(quote(bot))
